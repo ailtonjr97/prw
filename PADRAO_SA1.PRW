@@ -38,7 +38,6 @@ WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_SA1
     // Efetua a busca dos registros
     cQueryTab := " SELECT TOP 100 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
     cQueryTab += " WHERE TAB.A1_FILIAL LIKE '%"+::filial+"%' AND TAB.A1_COD LIKE '%"+::cliente+"%' AND TAB.A1_LOJA LIKE '%"+::loja+"%' ORDER BY TABREC DESC " + CRLF
-    cQueryTab += " ORDER BY TABREC DESC "
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros

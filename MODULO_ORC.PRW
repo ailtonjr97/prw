@@ -147,7 +147,8 @@ WSMETHOD GET UNICO WSSERVICE MODULO_ORC
     EndIf
 
     // Efetua a busca dos registros
-    cQueryTab := " SELECT TOP 100 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SCJ010 TAB " + CRLF
+    cQueryTab := " SELECT TOP 100 ISNULL(CONVERT(VARCHAR(2047), CONVERT(VARBINARY(2047), TAB.CJ_XOBS)),'') AS CJ_XOBS, TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL, VEND.A3_NOME AS A3_NOME FROM SCJ010 TAB " + CRLF
+    cQueryTab += " INNER JOIN SA3010 AS VEND ON TAB.CJ_XVEND1 = VEND.A3_COD"
     cQueryTab += " WHERE TAB.CJ_FILIAL LIKE '%"+::filial+"%' AND TAB.CJ_NUM LIKE '%"+::numero+"%' AND TAB.CJ_CLIENTE LIKE '%"+::cliente+"%' AND TAB.CJ_LOJA LIKE '%"+::loja+"%' " + CRLF
     cQueryTab += " ORDER BY TABREC DESC "
     TCQuery cQueryTab New Alias 'QRY_TAB'
@@ -227,6 +228,10 @@ WSMETHOD GET UNICO WSSERVICE MODULO_ORC
             oRegistro['CJ_DESC3']     := (cAliasWS)->CJ_DESC3
             oRegistro['CJ_DESC4']     := (cAliasWS)->CJ_DESC4
             oRegistro['CJ_TABELA']    := (cAliasWS)->CJ_TABELA
+            oRegistro['CJ_XPVKORP']   := (cAliasWS)->CJ_XPVKORP
+            oRegistro['CJ_TIPOCLI']   := (cAliasWS)->CJ_TIPOCLI
+            oRegistro['CJ_XFREIMP']   := (cAliasWS)->CJ_XFREIMP
+            oRegistro['CJ_XOBS']      := (cAliasWS)->CJ_XOBS
             oRegistro['CJ_DESC1']     := (cAliasWS)->CJ_DESC1
             oRegistro['CJ_PARC1']     := (cAliasWS)->CJ_PARC1
             oRegistro['CJ_DATA1']     := (cAliasWS)->CJ_DATA1
@@ -259,6 +264,7 @@ WSMETHOD GET UNICO WSSERVICE MODULO_ORC
             oRegistro['CJ_INDPRES']   := (cAliasWS)->CJ_INDPRES
             oRegistro['CJ_CODA1U']    := (cAliasWS)->CJ_CODA1U
             oRegistro['CJ_XESTADO']   := (cAliasWS)->CJ_XESTADO
+            oRegistro['A3_NOME']      := QRY_TAB->A3_NOME
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL
             aAdd(jResponse['objects'], oRegistro)

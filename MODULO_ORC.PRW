@@ -232,6 +232,13 @@ WSMETHOD GET UNICO WSSERVICE MODULO_ORC
             oRegistro['CJ_TIPOCLI']   := (cAliasWS)->CJ_TIPOCLI
             oRegistro['CJ_XFREIMP']   := (cAliasWS)->CJ_XFREIMP
             oRegistro['CJ_XOBS']      := (cAliasWS)->CJ_XOBS
+
+            oRegistro['CJ_XENTREG']   := (cAliasWS)->CJ_XENTREG
+            oRegistro['CJ_CST_FTS']   := (cAliasWS)->CJ_CST_FTS
+            oRegistro['CJ_XFREMA']    := (cAliasWS)->CJ_XFREMA
+            oRegistro['CJ_XTRANSP']   := (cAliasWS)->CJ_XTRANSP
+            oRegistro['CJ_XFRESIM']   := (cAliasWS)->CJ_XFRESIM
+
             oRegistro['CJ_DESC1']     := (cAliasWS)->CJ_DESC1
             oRegistro['CJ_PARC1']     := (cAliasWS)->CJ_PARC1
             oRegistro['CJ_DATA1']     := (cAliasWS)->CJ_DATA1

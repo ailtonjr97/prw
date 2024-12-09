@@ -13,10 +13,11 @@ WSRESTFUL CLIENTES DESCRIPTION 'APIs exclusivas do módulo clientes.'
     WSDATA name       AS STRING
     WSDATA filial     AS STRING
     WSDATA loja       AS STRING
+    WSDATA cgc        AS STRING
 
     //Métodos
-    WSMETHOD GET GRID     DESCRIPTION 'Retorna informações utilizadas na grid' WSSYNTAX '/clientes/grid?{updated_at, limit, page, cod, name}'          PATH 'grid'  PRODUCES APPLICATION_JSON
-    WSMETHOD GET UNICO    DESCRIPTION 'Retorna um unico resultado'             WSSYNTAX '/clientes/unico?{updated_at, limit, page, filial, cod, loja}' PATH 'unico'   PRODUCES APPLICATION_JSON
+    WSMETHOD GET GRID     DESCRIPTION 'Retorna informações utilizadas na grid' WSSYNTAX '/clientes/grid?{updated_at, limit, page, cod, name, cgc}'     PATH 'grid'  PRODUCES APPLICATION_JSON
+    WSMETHOD GET UNICO    DESCRIPTION 'Retorna um unico resultado'             WSSYNTAX '/clientes/unico?{updated_at, limit, page, filial, cod, loja}' PATH 'unico' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
 
@@ -39,7 +40,7 @@ WSMETHOD GET GRID WSSERVICE CLIENTES
 
     //Efetua a busca dos registros
     cQueryTab := " SELECT TOP 1000 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
-    cQueryTab += " WHERE TAB.A1_COD LIKE '%"+::cod+"%' AND TAB.A1_NOME LIKE '%"+::name+"%' "
+    cQueryTab += " WHERE TAB.A1_COD LIKE '%"+::cod+"%' AND TAB.A1_NOME LIKE '%"+::name+"%' AND TAB.A1_CGC LIKE '%"+::cgc+"%'"
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros
@@ -102,6 +103,7 @@ WSMETHOD GET GRID WSSERVICE CLIENTES
             oRegistro['A1_COD']       := (cAliasWS)->A1_COD
             oRegistro['A1_LOJA']      := (cAliasWS)->A1_LOJA
             oRegistro['A1_NOME']      := (cAliasWS)->A1_NOME
+            oRegistro['A1_CGC']       := (cAliasWS)->A1_CGC
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL
             aAdd(jResponse['objects'], oRegistro)
@@ -201,6 +203,8 @@ WSMETHOD GET UNICO WSSERVICE CLIENTES
             oRegistro['A1_FILIAL']    := (cAliasWS)->A1_FILIAL
             oRegistro['A1_COD']       := (cAliasWS)->A1_COD
             oRegistro['A1_LOJA']      := (cAliasWS)->A1_LOJA
+            oRegistro['A1_NOME']      := (cAliasWS)->A1_NOME
+            oRegistro['A1_CGC']       := (cAliasWS)->A1_CGC
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL
             aAdd(jResponse['objects'], oRegistro)

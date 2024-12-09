@@ -40,7 +40,8 @@ WSMETHOD GET GRID WSSERVICE CLIENTES
 
     //Efetua a busca dos registros
     cQueryTab := " SELECT TOP 1000 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
-    cQueryTab += " WHERE TAB.A1_COD LIKE '%"+::cod+"%' AND TAB.A1_NOME LIKE '%"+::name+"%' AND TAB.A1_CGC LIKE '%"+::cgc+"%'"
+    cQueryTab += " WHERE TAB.A1_COD LIKE '%"+::cod+"%' AND TAB.A1_NOME LIKE '%"+::name+"%' AND TAB.A1_CGC LIKE '%"+::cgc+"%'" + CRLF
+    cQueryTab += " AND TAB.R_E_C_D_E_L_ = 0 "
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros
@@ -205,6 +206,16 @@ WSMETHOD GET UNICO WSSERVICE CLIENTES
             oRegistro['A1_LOJA']      := (cAliasWS)->A1_LOJA
             oRegistro['A1_NOME']      := (cAliasWS)->A1_NOME
             oRegistro['A1_CGC']       := (cAliasWS)->A1_CGC
+            oRegistro['A1_PESSOA']    := (cAliasWS)->A1_PESSOA
+            oRegistro['A1_END']       := (cAliasWS)->A1_END
+            oRegistro['A1_NREDUZ']    := (cAliasWS)->A1_NREDUZ
+            oRegistro['A1_BAIRRO']    := (cAliasWS)->A1_BAIRRO
+
+            oRegistro['A1_TIPO']      := (cAliasWS)->A1_TIPO
+            oRegistro['A1_EST']       := (cAliasWS)->A1_EST
+            oRegistro['A1_CEP']       := (cAliasWS)->A1_CEP
+            oRegistro['A1_COD_MUN']   := (cAliasWS)->A1_COD_MUN
+
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL
             aAdd(jResponse['objects'], oRegistro)

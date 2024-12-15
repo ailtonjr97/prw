@@ -16,11 +16,69 @@ WSRESTFUL CLIENTES DESCRIPTION 'APIs exclusivas do módulo clientes.'
     WSDATA cgc        AS STRING
 
     //Métodos
-    WSMETHOD GET GRID           DESCRIPTION 'Retorna informações utilizadas na grid' WSSYNTAX '/clientes/grid?{updated_at, limit, page, cod, name, cgc}'      PATH 'grid'   PRODUCES APPLICATION_JSON
-    WSMETHOD GET UNICO          DESCRIPTION 'Retorna um unico resultado'             WSSYNTAX '/clientes/unico?{updated_at, limit, page, filial, cod, loja}'  PATH 'unico'  PRODUCES APPLICATION_JSON
-    WSMETHOD PUT UPDATE_CLIENTE DESCRIPTION 'Atualiza um registro'                   WSSYNTAX '/clientes/update?{updated_at, limit, page, filial, cod, loja}' PATH 'update' PRODUCES APPLICATION_JSON
+    WSMETHOD GET    GRID           DESCRIPTION 'Retorna informações na grid' WSSYNTAX '/clientes/grid?{updated_at, limit, page, cod, name, cgc}'      PATH 'grid'   PRODUCES APPLICATION_JSON
+    WSMETHOD GET    UNICO          DESCRIPTION 'Retorna um unico resultado'  WSSYNTAX '/clientes/unico?{updated_at, limit, page, filial, cod, loja}'  PATH 'unico'  PRODUCES APPLICATION_JSON
+    WSMETHOD PUT    UPDATE_CLIENTE DESCRIPTION 'Atualiza um registro'        WSSYNTAX '/clientes/update?{updated_at, limit, page, filial, cod, loja}' PATH 'update' PRODUCES APPLICATION_JSON
+    WSMETHOD DELETE DELETE_CLIENTE DESCRIPTION 'Deleta um registro'          WSSYNTAX '/clientes/delete?{updated_at, limit, page, filial, cod, loja}' PATH 'delete' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
+
+WSMETHOD DELETE DELETE_CLIENTE WSRECEIVE WSRESTFUL CLIENTES
+Local lRet      := .T.
+Local aArea     := GetArea()
+Local oJson
+Local cJson     := Self:GetContent()
+Local cError    := ''
+Local nOpc      := 5 //Número 5 indica delete
+Local aSA1Auto := {}
+Local aAI0Auto := {}
+ 
+Private lMsErroAuto := .F.
+Private lAutoErrNoFile := .T.
+ 
+Self:SetContentType("application/json")
+oJson   := JsonObject():New()
+cError  := oJson:FromJson(cJson)
+IF !Empty(cError)
+    SetRestFault(500,'Parser Json Error')
+    lRet    := .F.
+Else
+
+    If lRet
+    
+    //----------------------------------
+    // Dados do Cliente
+    //----------------------------------
+    aAdd(aSA1Auto,{"A1_FILIAL",  AllTrim(oJson:GetJsonObject('A1_FILIAL')), NIL})
+    aAdd(aSA1Auto,{"A1_COD",     AllTrim(oJson:GetJsonObject('A1_COD')),    NIL})
+    aAdd(aSA1Auto,{"A1_LOJA",    AllTrim(oJson:GetJsonObject('A1_LOJA')),   NIL})
+    
+    //---------------------------------------------------------
+    // Dados do Complemento do Cliente
+    //---------------------------------------------------------
+    aAdd(aAI0Auto,{"AI0_CODCLI", AllTrim(oJson:GetJsonObject('AI0_CODCLI')), NIL})
+    
+    //------------------------------------
+    // Chamada para cadastrar o cliente.
+    //------------------------------------
+    MSExecAuto({|a,b,c| CRMA980(a,b,c)}, aSA1Auto, nOpc, {}) //Colocar aAI0Auto ao invés do objeto vazio {} para alterar dados complementares do cliente.
+    
+    IF lMsErroAuto
+        self:setStatus(500)
+        self:setResponse("ERRO AO DELETAR" + GetAutoGRLog())
+        lRet := .T.
+    ELSE
+        Self:SetResponse("Deletado com sucesso.")
+    EndIF 
+
+    EndIf    
+    
+EndIf
+
+RestArea(aArea)
+FreeObj(oJson)
+ 
+Return
 
 WSMETHOD PUT UPDATE_CLIENTE WSRECEIVE WSRESTFUL CLIENTES
 Local lRet      := .T.

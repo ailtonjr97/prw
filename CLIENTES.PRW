@@ -19,11 +19,11 @@ WSRESTFUL CLIENTES DESCRIPTION 'APIs exclusivas do módulo clientes.'
     WSMETHOD GET    GRID           DESCRIPTION 'Retorna informações na grid' WSSYNTAX '/clientes/grid?{updated_at, limit, page, cod, name, cgc}'      PATH 'grid'   PRODUCES APPLICATION_JSON
     WSMETHOD GET    UNICO          DESCRIPTION 'Retorna um unico resultado'  WSSYNTAX '/clientes/unico?{updated_at, limit, page, filial, cod, loja}'  PATH 'unico'  PRODUCES APPLICATION_JSON
     WSMETHOD PUT    UPDATE_CLIENTE DESCRIPTION 'Atualiza um registro'        WSSYNTAX '/clientes/update?{updated_at, limit, page, filial, cod, loja}' PATH 'update' PRODUCES APPLICATION_JSON
-    WSMETHOD DELETE DELETE_CLIENTE DESCRIPTION 'Deleta um registro'          WSSYNTAX '/clientes/delete?{updated_at, limit, page, filial, cod, loja}' PATH 'delete' PRODUCES APPLICATION_JSON
+    WSMETHOD PUT    DELETE_CLIENTE DESCRIPTION 'Deleta um registro'          WSSYNTAX '/clientes/delete?{updated_at, limit, page, filial, cod, loja}' PATH 'delete' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
 
-WSMETHOD DELETE DELETE_CLIENTE WSRECEIVE WSRESTFUL CLIENTES
+WSMETHOD PUT DELETE_CLIENTE WSRECEIVE WSRESTFUL CLIENTES
 Local lRet      := .T.
 Local aArea     := GetArea()
 Local oJson

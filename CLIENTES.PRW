@@ -156,7 +156,7 @@ WSMETHOD GET GRID WSSERVICE CLIENTES
     EndIf
 
     //Efetua a busca dos registros
-    cQueryTab := " SELECT TOP 1000 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
+    cQueryTab := " SELECT TOP 500 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
     cQueryTab += " WHERE TAB.A1_COD LIKE '%"+::cod+"%' AND TAB.A1_NOME LIKE '%"+::name+"%' AND TAB.A1_CGC LIKE '%"+::cgc+"%'" + CRLF
     cQueryTab += " AND TAB.R_E_C_D_E_L_ = 0 "
     TCQuery cQueryTab New Alias 'QRY_TAB'
@@ -332,6 +332,10 @@ WSMETHOD GET UNICO WSSERVICE CLIENTES
             oRegistro['A1_EST']       := (cAliasWS)->A1_EST
             oRegistro['A1_CEP']       := (cAliasWS)->A1_CEP
             oRegistro['A1_COD_MUN']   := (cAliasWS)->A1_COD_MUN
+
+            oRegistro['A1_TABELA']    := (cAliasWS)->A1_TABELA
+            oRegistro['A1_VEND']      := (cAliasWS)->A1_VEND
+            oRegistro['A1_XCARTEI']   := (cAliasWS)->A1_XCARTEI
 
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL

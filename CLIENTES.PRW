@@ -110,6 +110,7 @@ Else
     aAdd(aSA1Auto,{"A1_COD",     AllTrim(oJson:GetJsonObject('A1_COD')),    NIL})
     aAdd(aSA1Auto,{"A1_LOJA",    AllTrim(oJson:GetJsonObject('A1_LOJA')),   NIL})
     aAdd(aSA1Auto,{"A1_NOME",    AllTrim(oJson:GetJsonObject('A1_NOME')),   NIL})
+    aAdd(aSA1Auto,{"A1_EMAIL",    AllTrim(oJson:GetJsonObject('A1_EMAIL')), NIL})
     
     //---------------------------------------------------------
     // Dados do Complemento do Cliente
@@ -327,15 +328,26 @@ WSMETHOD GET UNICO WSSERVICE CLIENTES
             oRegistro['A1_END']       := (cAliasWS)->A1_END
             oRegistro['A1_NREDUZ']    := (cAliasWS)->A1_NREDUZ
             oRegistro['A1_BAIRRO']    := (cAliasWS)->A1_BAIRRO
-
             oRegistro['A1_TIPO']      := (cAliasWS)->A1_TIPO
             oRegistro['A1_EST']       := (cAliasWS)->A1_EST
             oRegistro['A1_CEP']       := (cAliasWS)->A1_CEP
             oRegistro['A1_COD_MUN']   := (cAliasWS)->A1_COD_MUN
-
             oRegistro['A1_TABELA']    := (cAliasWS)->A1_TABELA
             oRegistro['A1_VEND']      := (cAliasWS)->A1_VEND
             oRegistro['A1_XCARTEI']   := (cAliasWS)->A1_XCARTEI
+            oRegistro['A1_MUN']       := (cAliasWS)->A1_MUN
+            oRegistro['A1_REGIAO']    := (cAliasWS)->A1_REGIAO
+            oRegistro['A1_DSCREG']    := (cAliasWS)->A1_DSCREG
+            oRegistro['A1_DDI']       := (cAliasWS)->A1_DDI
+            oRegistro['A1_DDD']       := (cAliasWS)->A1_DDD
+            oRegistro['A1_TEL']       := (cAliasWS)->A1_TEL
+            oRegistro['A1_CONTATO']   := (cAliasWS)->A1_CONTATO
+            oRegistro['A1_FAX']       := (cAliasWS)->A1_FAX
+
+            oRegistro['A1_INSCR']     := (cAliasWS)->A1_INSCR
+            oRegistro['A1_PAIS']      := (cAliasWS)->A1_PAIS
+            oRegistro['A1_EMAIL']     := (cAliasWS)->A1_EMAIL
+            oRegistro['A1_MSBLQL']    := (cAliasWS)->A1_MSBLQL
 
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL

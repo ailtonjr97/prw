@@ -35,16 +35,12 @@ WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_DA0
     EndIf
 
     // Efetua a busca dos registros
-    cQueryTab := " SELECT TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM DA0010 TAB WHERE TAB.DA0_CODTAB = '"+::numero+"' AND TAB.DA0_FILIAL = '"+::filial+"' ORDER BY TABREC DESC " + CRLF
+    cQueryTab := " SELECT TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM DA0010 TAB WHERE TAB.DA0_CODTAB = '"+::numero+"' AND TAB.DA0_FILIAL LIKE '%"+::filial+"%' AND TAB.R_E_C_D_E_L_ = 0 ORDER BY TABREC DESC " + CRLF
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros
     If QRY_TAB->(EoF())
-        //SetRestFault(500, 'Falha ao consultar registros') //caso queira usar esse comando, você não poderá usar outros retornos, como os abaixo
-        Self:setStatus(404) 
-        jResponse['errorId']  := 'ALL003'
-        jResponse['error']    := 'Registro(s) não encontrado(s)'
-        jResponse['solution'] := 'A consulta de registros não retornou nenhuma informação'
+        jResponse['objects']  := {}
     Else
         jResponse['objects'] := {}
 

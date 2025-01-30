@@ -4,7 +4,7 @@
 #Include "TopConn.ch"
 
 
-WSRESTFUL PADRAO_SA3 DESCRIPTION 'Tabela SA3 - Condicoes de Pagamento'
+WSRESTFUL PADRAO_SA3 DESCRIPTION 'Tabela SA3 - Vendedores'
     //Atributos
     WSDATA updated_at AS STRING
     WSDATA limit      AS INTEGER

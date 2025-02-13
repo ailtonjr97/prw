@@ -170,7 +170,8 @@ Else
     aAdd(aSA1Auto,{"A1_COD",     AllTrim(oJson:GetJsonObject('A1_COD')),    NIL})
     aAdd(aSA1Auto,{"A1_LOJA",    AllTrim(oJson:GetJsonObject('A1_LOJA')),   NIL})
     aAdd(aSA1Auto,{"A1_NOME",    AllTrim(oJson:GetJsonObject('A1_NOME')),   NIL})
-    aAdd(aSA1Auto,{"A1_EMAIL",    AllTrim(oJson:GetJsonObject('A1_EMAIL')), NIL})
+    aAdd(aSA1Auto,{"A1_EMAIL",   AllTrim(oJson:GetJsonObject('A1_EMAIL')),  NIL})
+    aAdd(aSA1Auto,{"A1_PSWD",    AllTrim(oJson:GetJsonObject('A1_PSWD')),   NIL})
     
     //---------------------------------------------------------
     // Dados do Complemento do Cliente
@@ -403,11 +404,12 @@ WSMETHOD GET UNICO WSSERVICE CLIENTES
             oRegistro['A1_TEL']       := (cAliasWS)->A1_TEL
             oRegistro['A1_CONTATO']   := (cAliasWS)->A1_CONTATO
             oRegistro['A1_FAX']       := (cAliasWS)->A1_FAX
-
             oRegistro['A1_INSCR']     := (cAliasWS)->A1_INSCR
             oRegistro['A1_PAIS']      := (cAliasWS)->A1_PAIS
             oRegistro['A1_EMAIL']     := (cAliasWS)->A1_EMAIL
             oRegistro['A1_MSBLQL']    := (cAliasWS)->A1_MSBLQL
+
+            oRegistro['A1_PSWD']      := (cAliasWS)->A1_PSWD
 
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL

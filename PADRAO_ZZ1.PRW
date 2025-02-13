@@ -4,21 +4,19 @@
 #Include "TopConn.ch"
 
 
-WSRESTFUL PADRAO_SA1 DESCRIPTION 'Tabela SA1 - Clientes'
+WSRESTFUL PADRAO_ZZ1 DESCRIPTION 'Tabela ZZ1 - Carteira de Clientes'
     //Atributos
     WSDATA updated_at AS STRING
     WSDATA limit      AS INTEGER
     WSDATA page       AS INTEGER
-    WSDATA filial     AS STRING
-    WSDATA cliente    AS STRING
-    WSDATA loja       AS STRING
+    WSDATA codigo     AS STRING
 
     //Métodos
-    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao do cliente' WSSYNTAX '/PADRAO_SA1/cliente?{updated_at, limit, page, filial, cliente, loja}' PATH 'cliente' PRODUCES APPLICATION_JSON
+    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao' WSSYNTAX '/PADRAO_ZZ1/unico?{updated_at, limit, page, codigo}' PATH 'unico' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
 
-WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_SA1
+WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_ZZ1
     Local lRet            := .T.
     Local jResponse       := JsonObject():New()
     Local cQueryTab       := ''
@@ -29,15 +27,14 @@ WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_SA1
     Local nAtual          := 0
     Local data            := ''
     Local oRegistro
-    Local cAliasWS        := 'SA1'
+    Local cAliasWS        := 'ZZ1'
 
     If ! Empty(::updated_at)
         data := ::updated_at
     EndIf
 
     // Efetua a busca dos registros
-    cQueryTab := " SELECT TOP 100 TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SA1010 TAB " + CRLF
-    cQueryTab += " WHERE TAB.A1_FILIAL LIKE '%"+::filial+"%' AND TAB.A1_COD LIKE '%"+::cliente+"%' AND TAB.A1_LOJA LIKE '%"+::loja+"%' ORDER BY TABREC DESC " + CRLF
+    cQueryTab := " SELECT TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM ZZ1010 TAB WHERE TAB.ZZ1_COD = '"+::codigo+"' ORDER BY TABREC DESC " + CRLF
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros
@@ -100,9 +97,8 @@ WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_SA1
             (cAliasWS)->(DbGoTo(QRY_TAB->TABREC))
             
             oRegistro := JsonObject():New()
-            oRegistro['A1_COD']    := (cAliasWS)->A1_COD
-            oRegistro['A1_NOME']   := (cAliasWS)->A1_NOME
-            oRegistro['A1_LOJA']   := (cAliasWS)->A1_LOJA
+            oRegistro['ZZ1_COD']      := (cAliasWS)->ZZ1_COD
+            oRegistro['ZZ1_DESCRI']   := (cAliasWS)->ZZ1_DESCRI
             oRegistro['R_E_C_N_O_']   := QRY_TAB->TABREC
             oRegistro['R_E_C_D_E_L_'] := QRY_TAB->RECDEL
             aAdd(jResponse['objects'], oRegistro)

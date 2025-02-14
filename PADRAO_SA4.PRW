@@ -13,7 +13,7 @@ WSRESTFUL PADRAO_SA4 DESCRIPTION 'Tabela SA4 - Transportadoras'
     WSDATA codigo     AS STRING
 
     //Métodos
-    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao' WSSYNTAX '/PADRAO_SA4/one?{updated_at, limit, page, filial, codigo}' PATH 'one' PRODUCES APPLICATION_JSON
+    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao' WSSYNTAX '/PADRAO_SA4/unico?{updated_at, limit, page, filial, codigo}' PATH 'unico' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
 

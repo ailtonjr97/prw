@@ -12,7 +12,7 @@ WSRESTFUL PADRAO_SE4 DESCRIPTION 'Tabela SE4 - Condicoes de Pagamento'
     WSDATA numero     AS STRING
 
     //Métodos
-    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao' WSSYNTAX '/PADRAO_SE4/one?{updated_at, limit, page, numero}' PATH 'one' PRODUCES APPLICATION_JSON
+    WSMETHOD GET PADRAO_CONSULTA DESCRIPTION 'Consulta padrao' WSSYNTAX '/PADRAO_SE4/unico?{updated_at, limit, page, numero}' PATH 'unico' PRODUCES APPLICATION_JSON
 
 END WSRESTFUL
 
@@ -34,7 +34,7 @@ WSMETHOD GET PADRAO_CONSULTA WSSERVICE PADRAO_SE4
     EndIf
 
     // Efetua a busca dos registros
-    cQueryTab := " SELECT TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SE4010 TAB WHERE TAB.E4_CODIGO = '"+::numero+"' ORDER BY TABREC DESC " + CRLF
+    cQueryTab := " SELECT TAB.R_E_C_N_O_ AS TABREC, TAB.R_E_C_D_E_L_ AS RECDEL FROM SE4010 TAB WHERE TAB.E4_CODIGO = '"+::numero+"' AND TAB.R_E_C_D_E_L_ = 0 ORDER BY TABREC DESC " + CRLF
     TCQuery cQueryTab New Alias 'QRY_TAB'
 
     //Se não encontrar registros
